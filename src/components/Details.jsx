@@ -1,13 +1,14 @@
 import React from 'react'
 
 const Details = (props) => {
-    let clr1=Math.floor(Math.random()*256);
-    let clr2=Math.floor(Math.random()*256);
-    let clr3=Math.floor(Math.random()*256);
-    console.log(props);
+    console.log(props.pokiDetail);
+    
+   const randomColor=()=>{
+    `rgb(${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)},${Math.floor(Math.random()*256)})`}
+   
   
     if (!props.pokiDetail) {
-        return <h1 className="text-center mt-10">Search for a Pokemon to see details!</h1>;
+        return <h2 className="text-center mt-10">Search for a Pokemon to see details!</h2>;
     }
   return (
     
@@ -30,10 +31,11 @@ const Details = (props) => {
       </div>
 
       <div className='mb-8'>
-          <h2 style={{backgroundColor:`rgb(${clr1},${clr2},${clr3})`}} className='inline-block px-4 py-1 rounded-full  text-sm font-bold uppercase tracking-widest '  >
-         Fire
+          <h2 style={{backgroundColor:{randomColor}}} className='inline-block px-4 py-1 rounded-full  text-sm font-bold uppercase tracking-widest '  >
+         {props.pokiDetail.types.map((eachtype)=> eachtype.type.name).join(', ')}
           </h2>
       </div>
+
 
       {/* Info Grid */}
       <div className='grid grid-cols-2 gap-6'>
@@ -49,6 +51,6 @@ const Details = (props) => {
   </div>
 </div>
   )
-}
 
+}
 export default Details
