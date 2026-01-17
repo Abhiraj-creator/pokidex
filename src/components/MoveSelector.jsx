@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 
-const MoveSelector = ({ pokemon, onMoveSelect, selectedMove, label }) => {
+const MoveSelector = ({ pokemon, onMoveSelect, selectedMove, label, usedMoves = [] }) => {
   const [moves, setMoves] = useState([])
   const [loading, setLoading] = useState(false)
   const [expanded, setExpanded] = useState(false)
@@ -12,7 +12,8 @@ const MoveSelector = ({ pokemon, onMoveSelect, selectedMove, label }) => {
     } else {
       setMoves([])
     }
-  }, [pokemon])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pokemon, usedMoves])
 
   const fetchMoveDetails = async () => {
     if (!pokemon || !pokemon.moves) return
@@ -39,7 +40,9 @@ const MoveSelector = ({ pokemon, onMoveSelect, selectedMove, label }) => {
         }
       })
 
-      const moveDetails = (await Promise.all(movePromises)).filter(Boolean)
+      let moveDetails = (await Promise.all(movePromises)).filter(Boolean)
+      // Filter out used moves
+      moveDetails = moveDetails.filter(move => !usedMoves.includes(move.name))
       // Sort by power (highest first), then by name
       moveDetails.sort((a, b) => {
         if (b.power !== a.power) return b.power - a.power
@@ -106,8 +109,14 @@ const MoveSelector = ({ pokemon, onMoveSelect, selectedMove, label }) => {
 
       {!loading && expanded && (
         <div className='max-h-60 overflow-y-auto space-y-2 custom-scrollbar'>
+          {usedMoves.length > 0 && (
+            <div className='mb-2 p-2 bg-yellow-600/20 border border-yellow-500/50 rounded text-xs'>
+              <p className='text-yellow-400 font-semibold'>Used Moves (excluded):</p>
+              <p className='text-yellow-300'>{usedMoves.join(', ')}</p>
+            </div>
+          )}
           {moves.length === 0 ? (
-            <p className='text-zinc-500 text-center py-4'>No moves available</p>
+            <p className='text-zinc-500 text-center py-4'>No moves available{usedMoves.length > 0 ? ' (all moves used)' : ''}</p>
           ) : (
             moves.map((move, index) => (
               <button

@@ -112,13 +112,13 @@ const BattleResult = ({ result, pokemon1, pokemon2, showResult }) => {
                 {Math.round(animatedScore1)}
               </span>
             </div>
-            {result.typeInfo.advantage1 && (
+            {result.typeInfo?.advantage1 && (
               <div className='flex justify-between'>
                 <span className='text-zinc-400'>Type Advantage:</span>
                 <span className='font-semibold text-green-400'>{result.typeInfo.advantage1}</span>
               </div>
             )}
-            {result.typeInfo.multiplier1 !== 1 && (
+            {result.typeInfo && result.typeInfo.multiplier1 !== 1 && (
               <div className='flex justify-between'>
                 <span className='text-zinc-400'>Type Multiplier:</span>
                 <span className='font-semibold text-yellow-400'>{result.typeInfo.multiplier1.toFixed(2)}x</span>
@@ -143,13 +143,13 @@ const BattleResult = ({ result, pokemon1, pokemon2, showResult }) => {
                 {Math.round(animatedScore2)}
               </span>
             </div>
-            {result.typeInfo.advantage2 && (
+            {result.typeInfo?.advantage2 && (
               <div className='flex justify-between'>
                 <span className='text-zinc-400'>Type Advantage:</span>
                 <span className='font-semibold text-green-400'>{result.typeInfo.advantage2}</span>
               </div>
             )}
-            {result.typeInfo.multiplier2 !== 1 && (
+            {result.typeInfo && result.typeInfo.multiplier2 !== 1 && (
               <div className='flex justify-between'>
                 <span className='text-zinc-400'>Type Multiplier:</span>
                 <span className='font-semibold text-yellow-400'>{result.typeInfo.multiplier2.toFixed(2)}x</span>
